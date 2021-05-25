@@ -3,6 +3,7 @@ import Board from './Board';
 import Points from './Points';
 import './App.css'
 import Button from './Button';
+import ButtonReset from './ButtonReset';
 
 const winningPoints = [
     [0,1,2],
@@ -47,9 +48,9 @@ const App = () =>{
 
     
     const onItem = (index) =>{
+        if(turn !== null){
         const newSquares = squares.map((square,i) => index === i ? turn : square);
         setSquares(newSquares);
-        if(turn !== null){
             setTurn(turn === 'X' ? 'O' : 'X')
             checkWinner(newSquares)
         }
@@ -62,10 +63,24 @@ const App = () =>{
         setSquares(Array(9).fill(null));
     }
 
+    const handleReset = () => {
+        setScore({
+            ...score,
+            X:0,
+            O:0
+        })
+    }
+
     return(
         <div className='container'>
+            <div className='buttons'>
+                <Button handleNewGame={handleNewGame}>New Game!</Button>
+                <ButtonReset handleReset={handleReset} >Reset!</ButtonReset>
+            </div>
             <Board squares={squares} onItem={onItem} turn={turn}/>
-            <Button handleNewGame={handleNewGame}/>
+            
+            
+           
             <Points score={score}/>
             
         </div>
